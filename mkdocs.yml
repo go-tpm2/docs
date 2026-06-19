@@ -1,0 +1,49 @@
+site_name: go-tpm2
+site_description: Pure-Go, transport-agnostic TPM 2.0 stack — one big-endian wire codec and a narrow Transport waist driving TIS, CRB, EFI_TCG2 and /dev/tpmrm0, with full remote-attestation and measured-boot sealing on top. No cgo.
+site_url: https://go-tpm2.github.io/docs/
+repo_url: https://github.com/go-tpm2
+repo_name: go-tpm2
+edit_uri: ""
+
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle: { icon: material/weather-night, name: Dark mode }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle: { icon: material/weather-sunny, name: Light mode }
+  features: [navigation.sections, navigation.top, content.code.copy, search.suggest]
+
+extra_css: [stylesheets/brand.css]
+extra:
+  version:
+    provider: mike
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.highlight
+
+nav:
+  - Home: index.md
+  - Components:
+      - Overview: components/index.md
+      - "common — the narrow waist": components/common.md
+      - "tis — TIS/FIFO MMIO transport": components/tis.md
+      - "crb — CRB MMIO transport": components/crb.md
+      - "efitcg2 — EFI_TCG2_PROTOCOL transport": components/efitcg2.md
+      - "devtpm — /dev/tpmrm0 transport": components/devtpm.md
+      - "tpm2 — the command API": components/tpm2.md
+      - "attest — remote-attestation protocol": components/attest.md
+      - "validate — real-swtpm harness": components/validate.md
