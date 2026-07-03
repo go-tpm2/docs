@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/components/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/components/attest/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/components/common/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/components/crb/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/components/devtpm/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/components/efitcg2/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/components/tis/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/components/tpm2/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
     <url>
          <loc>https://go-tpm2.github.io/docs/0.1/components/validate/</loc>
-         <lastmod>2026-06-19</lastmod>
+         <lastmod>2026-07-03</lastmod>
     </url>
 </urlset>
