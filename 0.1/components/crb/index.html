@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -811,8 +811,8 @@ Response Buffer Interface</em>. <strong>v0.1.0.</strong></p>
 </code></pre></div>
 <h2 id="usage">Usage</h2>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="s">&quot;github.com/go-tpm2/common&quot;</span>
-<span class="w">    </span><span class="s">&quot;github.com/go-tpm2/crb&quot;</span>
+<span class="w">    </span><span class="s">"github.com/go-tpm2/common"</span>
+<span class="w">    </span><span class="s">"github.com/go-tpm2/crb"</span>
 <span class="p">)</span>
 
 <span class="c1">// r is a platform-provided common.Regs over the CRB control area base.</span>
@@ -827,8 +827,8 @@ Response Buffer Interface</em>. <strong>v0.1.0.</strong></p>
 <span class="c1">//   rnd, _ := tpm.GetRandom(20)</span>
 
 <span class="c1">// …or drive raw command buffers directly:</span>
-<span class="nx">cmd</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">common</span><span class="p">.</span><span class="nx">BuildCommand</span><span class="p">(</span><span class="nb">uint16</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">TagNoSessions</span><span class="p">),</span>
-<span class="w">    </span><span class="nb">uint32</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">CCGetRandom</span><span class="p">),</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x02</span><span class="p">})</span>
+<span class="nx">cmd</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">common</span><span class="p">.</span><span class="nx">BuildCommand</span><span class="p">(</span><span class="kt">uint16</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">TagNoSessions</span><span class="p">),</span>
+<span class="w">    </span><span class="kt">uint32</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">CCGetRandom</span><span class="p">),</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x02</span><span class="p">})</span>
 <span class="nx">rsp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dev</span><span class="p">.</span><span class="nx">Send</span><span class="p">(</span><span class="nx">cmd</span><span class="p">)</span><span class="w"> </span><span class="c1">// common.Transport.Send</span>
 </code></pre></div>
 <h2 id="send-state-machine-tcg-ptp">Send state machine (TCG PTP)</h2>
@@ -923,7 +923,7 @@ coverage.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

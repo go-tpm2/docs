@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -787,11 +787,11 @@ buffer for the full response buffer. <strong>v0.1.0.</strong></p>
 </code></pre></div>
 <h2 id="usage">Usage</h2>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="nx">common</span><span class="w"> </span><span class="s">&quot;github.com/go-tpm2/common&quot;</span>
-<span class="w">    </span><span class="s">&quot;github.com/go-tpm2/tis&quot;</span>
+<span class="w">    </span><span class="nx">common</span><span class="w"> </span><span class="s">"github.com/go-tpm2/common"</span>
+<span class="w">    </span><span class="s">"github.com/go-tpm2/tis"</span>
 <span class="p">)</span>
 
-<span class="c1">// regs is your platform&#39;s MMIO window over the locality-0 register page</span>
+<span class="c1">// regs is your platform's MMIO window over the locality-0 register page</span>
 <span class="c1">// (an mmap of /dev/mem at 0xFED4_0000, a hypervisor stub, a test fake…).</span>
 <span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tis</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">regs</span><span class="p">)</span>
 <span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
@@ -802,8 +802,8 @@ buffer for the full response buffer. <strong>v0.1.0.</strong></p>
 <span class="c1">//   tpm := tpm2.New(t); tpm.Startup(uint16(common.SUClear))</span>
 
 <span class="c1">// …or send a raw command buffer:</span>
-<span class="nx">rsp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">t</span><span class="p">.</span><span class="nx">Send</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">BuildCommand</span><span class="p">(</span><span class="nb">uint16</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">TagNoSessions</span><span class="p">),</span>
-<span class="w">    </span><span class="nb">uint32</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">CCGetRandom</span><span class="p">),</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x08</span><span class="p">}))</span>
+<span class="nx">rsp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">t</span><span class="p">.</span><span class="nx">Send</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">BuildCommand</span><span class="p">(</span><span class="kt">uint16</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">TagNoSessions</span><span class="p">),</span>
+<span class="w">    </span><span class="kt">uint32</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">CCGetRandom</span><span class="p">),</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x08</span><span class="p">}))</span>
 </code></pre></div>
 <h2 id="scope">Scope</h2>
 <p><code>Open</code> validates presence via <code>TPM_DID_VID</code> and claims locality 0 via the
@@ -885,7 +885,7 @@ coverage.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
