@@ -1,4 +1,9 @@
-# attest — remote-attestation protocol
+---
+title: "attest — remote-attestation protocol"
+weight: 90
+---
+
+# attest — remote-attestation protocol {#attest-remote-attestation-protocol}
 
 `github.com/go-tpm2/attest` is the pure-Go **TPM 2.0 remote-attestation
 protocol**: a **Verifier** (control plane) and a **Node** (agent) that together
@@ -6,7 +11,7 @@ implement **node-admission-on-Quote**. A node joins a fleet only if it proves �
 via a TPM **Quote** over a fresh verifier nonce, signed by an **EK-bound
 Attestation Key** — that it booted an approved stack. **v0.3.0.**
 
-It sits one layer above [`tpm2`](tpm2.md): the Verifier is pure Go and **never
+It sits one layer above [`tpm2`]({{< relref "tpm2.md" >}}): the Verifier is pure Go and **never
 touches a TPM** (`MakeCredential` + `VerifyQuote` are off-TPM crypto); the Node
 drives a real `*tpm2.TPM` (`CreateEK` / `CreatePrimary` / `ActivateCredential` /
 `Quote`).
@@ -15,7 +20,7 @@ drives a real `*tpm2.TPM` (`CreateEK` / `CreatePrimary` / `ActivateCredential` /
 go get github.com/go-tpm2/attest
 ```
 
-## Protocol
+## Protocol {#protocol}
 
 Two phases. **Enrolment** (once per node) binds an AK to a trusted EK;
 **Admission** (every join) proves an approved boot.
@@ -36,7 +41,7 @@ Node                                   Verifier
                                                Policy.Matches(PCRs) → granted
 ```
 
-## Usage — the two-phase handshake
+## Usage — the two-phase handshake {#usage-the-two-phase-handshake}
 
 ```go
 // --- Verifier (control plane, pure Go, no TPM). ---
@@ -67,7 +72,7 @@ granted, err := v.Admit(node.AKName(), resp)
 `ErrEventLogMismatch`, or `ErrUnapprovedMeasurement` (`errors.As →
 *UnapprovedMeasurementError`) when an `EventLogPolicy` is installed.
 
-## Policies
+## Policies {#policies}
 
 Pluggable `EKRegistry`, `Policy`, and `PendingStore`:
 
@@ -75,13 +80,13 @@ Pluggable `EKRegistry`, `Policy`, and `PendingStore`:
 - **`EventLogPolicy`** (v0.2.0) — replay the TCG event log against a
   per-measurement allowlist, approving individual measurements instead of a
   whole-PCR digest. The event log is fetched via
-  [`efitcg2`](efitcg2.md)'s `GetEventLog`.
+  [`efitcg2`]({{< relref "efitcg2.md" >}})'s `GetEventLog`.
 - **`PendingStore`** — in-memory, or a shared backend for **HA** multi-replica
   control-planes.
 
-## Conventions
+## Conventions {#conventions}
 
 Pure Go, `CGO_ENABLED=0`, big-endian TPM wire (via `common`), `GOWORK=off`,
 BSD-3-Clause on every file, 100% statement coverage. End-to-end proven against
-real swtpm by [`validate`](validate.md) (`cmd/attestvalidate`,
+real swtpm by [`validate`]({{< relref "validate.md" >}}) (`cmd/attestvalidate`,
 `cmd/attesteventlog`).

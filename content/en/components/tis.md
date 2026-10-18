@@ -1,16 +1,21 @@
-# tis — TIS / FIFO MMIO transport
+---
+title: "tis — TIS/FIFO MMIO transport"
+weight: 40
+---
+
+# tis — TIS / FIFO MMIO transport {#tis-tis-fifo-mmio-transport}
 
 `github.com/go-tpm2/tis` is a pure-Go TPM **TIS / FIFO** MMIO transport. It
 drives the TCG PC Client TIS (FIFO) register handshake over the
-platform-provided [`common.Regs`](common.md) MMIO accessor and satisfies
-[`common.Transport`](common.md), exchanging one fully-marshaled TPM 2.0 command
+platform-provided [`common.Regs`]({{< relref "common.md" >}}) MMIO accessor and satisfies
+[`common.Transport`]({{< relref "common.md" >}}), exchanging one fully-marshaled TPM 2.0 command
 buffer for the full response buffer. **v0.1.0.**
 
 ```sh
 go get github.com/go-tpm2/tis
 ```
 
-## Usage
+## Usage {#usage}
 
 ```go
 import (
@@ -33,7 +38,7 @@ rsp, err := t.Send(common.BuildCommand(uint16(common.TagNoSessions),
     uint32(common.CCGetRandom), []byte{0x00, 0x08}))
 ```
 
-## Scope
+## Scope {#scope}
 
 `Open` validates presence via `TPM_DID_VID` and claims locality 0 via the
 `TPM_ACCESS` handshake. `Send` runs the FIFO command sequence: move the TPM to
@@ -43,19 +48,19 @@ poll `STS.dataAvail`, read the 10-byte header to learn `responseSize`, drain the
 rest honoring `burstCount`, then release the locality. Every busy-wait is
 bounded and returns a typed error.
 
-## Authority
+## Authority {#authority}
 
 Register offsets, bit fields, and the command sequence follow the TCG **PC
 Client Platform TPM Profile (PTP) Specification**, "FIFO Interface" chapter
 (which folds in the legacy TCG PC Client Specific TPM Interface Specification
 (TIS) 1.3). The TPM payloads are big-endian per the TCG *TPM 2.0, Part 1* (via
-[`common`](common.md)); the TIS control registers are native-endian MMIO via
+[`common`]({{< relref "common.md" >}})); the TIS control registers are native-endian MMIO via
 `common.Regs`. Each register/bit is cited at its definition in `regs.go` and
 each handshake step in `tis.go`. The two driver-side safety values (the spin
 budget and the response cap) are marked `INFERRED:` — and confirmed against a
-live swtpm by [`validate`](validate.md) (`cmd/tpmvalidate-tis`).
+live swtpm by [`validate`]({{< relref "validate.md" >}}) (`cmd/tpmvalidate-tis`).
 
-## Conventions
+## Conventions {#conventions}
 
 Pure Go, `CGO_ENABLED=0`, no architecture-specific assembly, big-endian TPM
 wire (via `common`), `GOWORK=off`, BSD-3-Clause on every file, 100% statement
