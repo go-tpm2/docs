@@ -1,8 +1,13 @@
-# crb — CRB MMIO transport
+---
+title: "crb — CRB MMIO transport"
+weight: 50
+---
+
+# crb — CRB MMIO transport {#crb-crb-mmio-transport}
 
 `github.com/go-tpm2/crb` is a pure-Go TPM 2.0 **Command Response Buffer (CRB)**
-MMIO transport. It implements [`common.Transport`](common.md) over the
-[`common.Regs`](common.md) MMIO accessor: the platform owns the register mapping
+MMIO transport. It implements [`common.Transport`]({{< relref "common.md" >}}) over the
+[`common.Regs`]({{< relref "common.md" >}}) MMIO accessor: the platform owns the register mapping
 (a physical MMIO window, an `mmap` of `/dev/mem`, or a test stub) and exposes it
 through `common.Regs`; this package drives the CRB register handshake defined by
 the TCG **PC Client Platform TPM Profile (PTP) Specification**, clause *Command
@@ -12,7 +17,7 @@ Response Buffer Interface*. **v0.1.0.**
 go get github.com/go-tpm2/crb
 ```
 
-## Usage
+## Usage {#usage}
 
 ```go
 import (
@@ -37,7 +42,7 @@ cmd := common.BuildCommand(uint16(common.TagNoSessions),
 rsp, err := dev.Send(cmd) // common.Transport.Send
 ```
 
-## Send state machine (TCG PTP)
+## Send state machine (TCG PTP) {#send-state-machine-tcg-ptp}
 
 1. **Request locality** — `LOC_CTRL.requestAccess`, wait `LOC_STS.Granted` +
    `LOC_STATE.locAssigned`.
@@ -52,18 +57,18 @@ rsp, err := dev.Send(cmd) // common.Transport.Send
    read the whole response.
 8. **Release** — `CTRL_REQ.goIdle`.
 
-## Endianness
+## Endianness {#endianness}
 
 The TPM 2.0 **wire** protocol (the command/response byte stream) is
-**big-endian** and handled by [`common`](common.md)'s codec. The CRB **control
+**big-endian** and handled by [`common`]({{< relref "common.md" >}})'s codec. The CRB **control
 registers** are **little-endian** MMIO; `common.Regs.Read32/Write32` access them
 in the platform's native width, so this package never byte-swaps register values
 — it only moves the opaque command/response byte streams through the data
 buffer.
 
-## Validated findings
+## Validated findings {#validated-findings}
 
-[`validate`](validate.md) confirms the register layout against QEMU's
+[`validate`]({{< relref "validate.md" >}}) confirms the register layout against QEMU's
 `-device tpm-crb` + a live swtpm: `regData = 0x80` (data-buffer offset) is
 **confirmed**, and `bufSize` was **corrected 4096 → 3968** — the locality is a
 `0x80`-byte control area at `0xFED40000` followed by the data buffer at
@@ -71,7 +76,7 @@ buffer.
 `4096` was the full locality size, and would have admitted a declared response
 128 bytes past the real buffer end.
 
-## Conventions
+## Conventions {#conventions}
 
 Pure Go, `CGO_ENABLED=0`, no architecture-specific assembly, big-endian TPM
 wire (via `common`), `GOWORK=off`, BSD-3-Clause on every file, 100% statement

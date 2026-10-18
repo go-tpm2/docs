@@ -1,11 +1,16 @@
-# go-tpm2
+---
+title: "Home"
+weight: 10
+---
+
+# go-tpm2 {#go-tpm2}
 
 **Pure-Go, transport-agnostic TPM 2.0 stack** — no cgo.
 
 `go-tpm2` is a family of Go modules that implement a
 [TPM 2.0](https://trustedcomputinggroup.org/resource/tpm-library-specification/)
 stack — guest / firmware / node-side drivers plus the command API — in pure
-Go. One narrow [`Transport`](components/common.md) interface
+Go. One narrow [`Transport`]({{< relref "components/common.md" >}}) interface
 (`Send(cmd) → rsp`) carries every command, so the **same command layer** drives
 a TPM over TIS/FIFO MMIO, over the CRB command buffer, over
 `EFI_TCG2_PROTOCOL` under UEFI Boot Services, or over the Linux kernel
@@ -16,25 +21,25 @@ cgo-bound `tpm2-tss` shim. It is built for the
 [cloud-boot](https://github.com/cloud-boot) measured-boot loader and weft
 remote attestation, but designed to run anywhere a TPM does — and every command
 is validated end-to-end against a **real** software-TPM and real UEFI firmware
-(see [`validate`](components/validate.md)).
+(see [`validate`]({{< relref "components/validate.md" >}})).
 
-## The narrow waist, and a big-endian codec
+## The narrow waist, and a big-endian codec {#the-narrow-waist-and-a-big-endian-codec}
 
-Everything pivots on [`common`](components/common.md): the `Transport`
+Everything pivots on [`common`]({{< relref "components/common.md" >}}): the `Transport`
 interface, the `Regs` MMIO accessor the register-level drivers use, the
 spec-derived constants, and the **big-endian** TPM 2.0 wire codec. The TPM 2.0
 command/response byte stream is big-endian per the TCG *TPM 2.0 Library, Part 1*
 — `common` owns that encoding so no other module byte-swaps payloads. (The MMIO
 **control registers** of TIS/CRB are little-endian, accessed at native width
 through `Regs`; and the TCG **event log** parsed by
-[`efitcg2`](components/efitcg2.md) is little-endian — two deliberate exceptions
+[`efitcg2`]({{< relref "components/efitcg2.md" >}}) is little-endian — two deliberate exceptions
 to the big-endian wire.)
 
 Build order is **common-first**: `common` has no siblings as dependencies; the
 transports (`tis`, `crb`, `efitcg2`, `devtpm`) and the command layer (`tpm2`)
 import it; `attest` sits above `tpm2`; `validate` exercises the whole stack.
 
-## How the pieces fit
+## How the pieces fit {#how-the-pieces-fit}
 
 ```
    go-tpm2/attest   — control-plane protocol (Verifier + Node)
@@ -63,20 +68,20 @@ firmware TPM through an injected closure; `devtpm` writes commands to and reads
 responses from the Linux kernel resource-manager char device. One command API,
 four backplanes.
 
-## Components
+## Components {#components}
 
 | Module | Import path | Role |
 |--------|-------------|------|
-| [`common`](components/common.md) | `github.com/go-tpm2/common` | The narrow waist — `Transport` + `Regs` interfaces, the **big-endian** TPM 2.0 wire codec, and the spec-derived constants. |
-| [`tis`](components/tis.md) | `github.com/go-tpm2/tis` | TPM **TIS/FIFO** MMIO transport — `STS`/`DATA_FIFO` handshake with `burstCount` and the `Expect` bit. |
-| [`crb`](components/crb.md) | `github.com/go-tpm2/crb` | TPM **CRB** MMIO transport — the PTP Command/Response Buffer doorbell + `goIdle`/`cmdReady` state machine. |
-| [`efitcg2`](components/efitcg2.md) | `github.com/go-tpm2/efitcg2` | **`EFI_TCG2_PROTOCOL`** transport — a firmware TPM under UEFI Boot Services via an injected `Caller`; `GetEventLog` for measured boot. |
-| [`devtpm`](components/devtpm.md) | `github.com/go-tpm2/devtpm` | Transport over the Linux kernel TPM char device **`/dev/tpmrm0`** — the node-side host-TPM path. |
-| [`tpm2`](components/tpm2.md) | `github.com/go-tpm2/tpm2` | The TPM 2.0 **command API** over any `Transport`: PCR, NV, AK/EK, Quote→Verify, seal/unseal, MakeCredential/ActivateCredential, Import/WrapToPCR. |
-| [`attest`](components/attest.md) | `github.com/go-tpm2/attest` | Control-plane **remote-attestation protocol** — a Verifier + a Node implementing node-admission-on-Quote, with golden-PCR or event-log replay policies. |
-| [`validate`](components/validate.md) | `github.com/go-tpm2/validate` | Real-hardware **validation harness** — TamaGo + QEMU + a live `swtpm` exercise the transports, the command API, and the attest protocol end to end. |
+| [`common`]({{< relref "components/common.md" >}}) | `github.com/go-tpm2/common` | The narrow waist — `Transport` + `Regs` interfaces, the **big-endian** TPM 2.0 wire codec, and the spec-derived constants. |
+| [`tis`]({{< relref "components/tis.md" >}}) | `github.com/go-tpm2/tis` | TPM **TIS/FIFO** MMIO transport — `STS`/`DATA_FIFO` handshake with `burstCount` and the `Expect` bit. |
+| [`crb`]({{< relref "components/crb.md" >}}) | `github.com/go-tpm2/crb` | TPM **CRB** MMIO transport — the PTP Command/Response Buffer doorbell + `goIdle`/`cmdReady` state machine. |
+| [`efitcg2`]({{< relref "components/efitcg2.md" >}}) | `github.com/go-tpm2/efitcg2` | **`EFI_TCG2_PROTOCOL`** transport — a firmware TPM under UEFI Boot Services via an injected `Caller`; `GetEventLog` for measured boot. |
+| [`devtpm`]({{< relref "components/devtpm.md" >}}) | `github.com/go-tpm2/devtpm` | Transport over the Linux kernel TPM char device **`/dev/tpmrm0`** — the node-side host-TPM path. |
+| [`tpm2`]({{< relref "components/tpm2.md" >}}) | `github.com/go-tpm2/tpm2` | The TPM 2.0 **command API** over any `Transport`: PCR, NV, AK/EK, Quote→Verify, seal/unseal, MakeCredential/ActivateCredential, Import/WrapToPCR. |
+| [`attest`]({{< relref "components/attest.md" >}}) | `github.com/go-tpm2/attest` | Control-plane **remote-attestation protocol** — a Verifier + a Node implementing node-admission-on-Quote, with golden-PCR or event-log replay policies. |
+| [`validate`]({{< relref "components/validate.md" >}}) | `github.com/go-tpm2/validate` | Real-hardware **validation harness** — TamaGo + QEMU + a live `swtpm` exercise the transports, the command API, and the attest protocol end to end. |
 
-## Conventions
+## Conventions {#conventions}
 
 Pure Go, `CGO_ENABLED=0`, no architecture-specific assembly, big-endian TPM
 wire (via `common`), `GOWORK=off`, BSD-3-Clause on every file, and 100%

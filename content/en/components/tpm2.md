@@ -1,7 +1,12 @@
-# tpm2 — the command API
+---
+title: "tpm2 — the command API"
+weight: 80
+---
+
+# tpm2 — the command API {#tpm2-the-command-api}
 
 `github.com/go-tpm2/tpm2` is the transport-agnostic, pure-Go **TPM 2.0 command
-API**. It sits one layer above [`common`](common.md): `common` owns the
+API**. It sits one layer above [`common`]({{< relref "common.md" >}}): `common` owns the
 big-endian wire codec and the `Transport` contract, and this package turns that
 codec into typed TPM 2.0 commands — from `Startup` / `GetRandom` / PCR ops up
 through full measured-boot attestation. **v0.6.0.**
@@ -10,7 +15,7 @@ through full measured-boot attestation. **v0.6.0.**
 go get github.com/go-tpm2/tpm2
 ```
 
-A `TPM` wraps any [`common.Transport`](common.md) — a `*crb.CRB`, a `*tis.TIS`,
+A `TPM` wraps any [`common.Transport`]({{< relref "common.md" >}}) — a `*crb.CRB`, a `*tis.TIS`,
 an `*efitcg2` caller, or a `*devtpm.Transport`:
 
 ```go
@@ -25,9 +30,9 @@ _, digests, err := tpm.PCRRead(sel)
 err = tpm.PCRExtend(0, uint16(common.AlgSHA256), eventDigest)
 ```
 
-## What it ships — the full attestation chain
+## What it ships — the full attestation chain {#what-it-ships-the-full-attestation-chain}
 
-### Attestation (Quote + off-TPM verify)
+### Attestation (Quote + off-TPM verify) {#attestation-quote-off-tpm-verify}
 
 ```go
 ak, akPub, _ := tpm.CreatePrimary()                  // ECDSA-P256 AK
@@ -38,7 +43,7 @@ info, err := tpm2.VerifyQuote(akPub, quoted, sig, expectedPCRs) // off-TPM
 `VerifyQuote` checks the ECDSA-P256 signature **and** re-derives and compares the
 `pcrDigest`.
 
-### Seal a secret to PCR state (measured-boot payoff)
+### Seal a secret to PCR state (measured-boot payoff) {#seal-a-secret-to-pcr-state-measured-boot-payoff}
 
 ```go
 parent, _ := tpm.CreateStoragePrimary()
@@ -47,7 +52,7 @@ priv, pub, _, _ := tpm.SealToPCR(parent, secret, sel, pcrValues)
 got, err := tpm.UnsealWithPCR(parent, priv, pub, sel, nonceCaller)
 ```
 
-### Credential activation (attestation identity)
+### Credential activation (attestation identity) {#credential-activation-attestation-identity}
 
 ```go
 ek, ekPub, _ := tpm.CreateEK()                        // EK Credential Profile
@@ -59,13 +64,13 @@ recovered, err := tpm.ActivateCredential(ak, ek, session,
 `MakeCredential` + `TPM2_ActivateCredential` prove the AK and the EK live on the
 **same TPM** — the binding a verifier needs before it will trust a quote.
 
-### Import / WrapToPCR
+### Import / WrapToPCR {#import-wraptopcr}
 
 Wrap an external secret (off-TPM) to a node's storage key + a PCR policy so the
 node imports + unseals it **only when its boot PCRs match** — control-plane
 secret sealing for attested nodes.
 
-### Other groups
+### Other groups {#other-groups}
 
 - **NV storage** — `NVDefineSpace` / `NVWrite` / `NVRead` / `NVReadPublic` /
   `NVUndefineSpace`.
@@ -76,9 +81,9 @@ secret sealing for attested nodes.
 Each method marshals its parameters with `common.BuildCommand` (the right
 `TPM_ST` tag + `TPM_CC`), calls `Transport.Send`, and parses with `common`'s
 codec. Every flow above is proven against a real swtpm by
-[`validate`](validate.md).
+[`validate`]({{< relref "validate.md" >}}).
 
-## Conventions
+## Conventions {#conventions}
 
 Pure Go, `CGO_ENABLED=0`, big-endian TPM wire (via `common`), `GOWORK=off`,
 BSD-3-Clause on every file, 100% statement coverage.

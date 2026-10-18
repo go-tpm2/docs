@@ -1,21 +1,26 @@
-# validate — real-swtpm validation harness
+---
+title: "validate — real-swtpm harness"
+weight: 100
+---
+
+# validate — real-swtpm validation harness {#validate-real-swtpm-validation-harness}
 
 `github.com/go-tpm2/validate` is a real-hardware validation **harness** (not a
 library) for the go-tpm2 stack. Each harness boots a
 [TamaGo](https://github.com/usbarmory/tamago) `amd64` guest under QEMU and
 drives a **real TPM 2.0** — QEMU's `-device tpm-crb` (or `-device tpm-tis`)
 backed by a live [`swtpm`](https://github.com/stefanberger/swtpm) **0.10.1** —
-through [`crb`](crb.md) / [`tis`](tis.md) (the MMIO transports) and
-[`tpm2`](tpm2.md) (the command layer). The guest performs the proof itself,
+through [`crb`]({{< relref "crb.md" >}}) / [`tis`]({{< relref "tis.md" >}}) (the MMIO transports) and
+[`tpm2`]({{< relref "tpm2.md" >}}) (the command layer). The guest performs the proof itself,
 prints `…: PASS` / `FAIL` on COM1, and terminates QEMU with a matching exit code
 via `isa-debug-exit`; the `run-*.sh` wrapper starts swtpm, parses the verdict,
 and exits non-zero on FAIL.
 
-This is where the `// INFERRED:` register bits in [`crb`](crb.md)/[`tis`](tis.md)
-and the encodings in [`tpm2`](tpm2.md) are confirmed or corrected against actual
+This is where the `// INFERRED:` register bits in [`crb`]({{< relref "crb.md" >}})/[`tis`]({{< relref "tis.md" >}})
+and the encodings in [`tpm2`]({{< relref "tpm2.md" >}}) are confirmed or corrected against actual
 TPM behaviour — the same live round-trip discipline used in the go-virtio work.
 
-## Harnesses
+## Harnesses {#harnesses}
 
 Guest harnesses under `cmd/`, each with its `run-*.sh` wrapper:
 
@@ -30,13 +35,13 @@ Guest harnesses under `cmd/`, each with its `run-*.sh` wrapper:
 | `cmd/tpmek` | CRB | The EK Credential Profile ECC-P256 (L-2) template produces the expected EK |
 | `cmd/tpmcred` | CRB | Credential activation: an off-TPM `MakeCredential` is recovered EXACTLY by `TPM2_ActivateCredential` — proving AK and EK share one TPM |
 | `cmd/tpmimport` | CRB | The `Import` / `WrapToPCR` flow: an off-TPM secret wrapped to a storage key + PCR policy, imported and unsealed only when PCRs match |
-| `cmd/attestvalidate` | CRB | The [`attest`](attest.md) two-phase protocol end to end (enrolment + admission) |
+| `cmd/attestvalidate` | CRB | The [`attest`]({{< relref "attest.md" >}}) two-phase protocol end to end (enrolment + admission) |
 | `cmd/attesteventlog` | CRB | The `EventLogPolicy` path: replay the TCG event log against a per-measurement allowlist |
 
 In addition, the `EFI_TCG2` measured-boot loop is exercised on real x86 **OVMF**
-firmware (see [`efitcg2`](efitcg2.md)).
+firmware (see [`efitcg2`]({{< relref "efitcg2.md" >}})).
 
-## Run
+## Run {#run}
 
 ```sh
 ./run.sh            # CRB validate
@@ -53,13 +58,16 @@ GOWORK=off GOOS=tamago GOARCH=amd64 GOOSPKG=github.com/usbarmory/tamago \
   -o tpmvalidate.elf ./cmd/tpmvalidate
 ```
 
-!!! note "CI is build-only"
-    Hosted CI cannot run the swtpm + full-system QEMU round-trips, so the
-    workflow builds the TamaGo toolchain from source (the version pinned in
-    `go.mod`) and cross-builds all harnesses for tamago/amd64. The actual
-    PASS/FAIL proofs run locally via `run-*.sh`.
+{{< callout type="info" >}}
+**CI is build-only**
 
-## What the base cycle proves
+Hosted CI cannot run the swtpm + full-system QEMU round-trips, so the
+workflow builds the TamaGo toolchain from source (the version pinned in
+`go.mod`) and cross-builds all harnesses for tamago/amd64. The actual
+PASS/FAIL proofs run locally via `run-*.sh`.
+{{< /callout >}}
+
+## What the base cycle proves {#what-the-base-cycle-proves}
 
 - **GetRandom**: two successive 32-byte reads come back non-zero and differ.
 - **PCR_Extend / PCR_Read** on the SHA-256 bank of the debug PCR (16): after the
@@ -68,7 +76,7 @@ GOWORK=off GOOS=tamago GOARCH=amd64 GOOSPKG=github.com/usbarmory/tamago \
   MMIO handshake, the command framing, the bare-index PCR handle, and the
   empty-auth password session are all correct.
 
-## Findings against the live swtpm (QEMU 10.2.2 + swtpm 0.10.1)
+## Findings against the live swtpm (QEMU 10.2.2 + swtpm 0.10.1) {#findings-against-the-live-swtpm-qemu-1022-swtpm-0101}
 
 - `crb.regData = 0x80` (data buffer offset) — **CONFIRMED**: QEMU reports
   `CTRL_CMD_ADDR = CTRL_RSP_ADDR = 0xFED40080`, i.e. offset `0x80`.

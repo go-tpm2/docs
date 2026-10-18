@@ -1,18 +1,23 @@
-# devtpm — /dev/tpmrm0 transport
+---
+title: "devtpm — /dev/tpmrm0 transport"
+weight: 70
+---
+
+# devtpm — /dev/tpmrm0 transport {#devtpm-devtpmrm0-transport}
 
 `github.com/go-tpm2/devtpm` is a pure-Go TPM 2.0 transport over the **Linux
 kernel TPM character device** (`/dev/tpmrm0`). It implements
-[`common.Transport`](common.md) over a Linux TPM char device and is the
+[`common.Transport`]({{< relref "common.md" >}}) over a Linux TPM char device and is the
 **node-side host-TPM transport** for weft remote attestation: on a real Linux
-node it gives the [`attest`](attest.md) Node side a channel to the host's
-hardware (or firmware / vTPM) TPM, where the [`tis`](tis.md)/[`crb`](crb.md)
+node it gives the [`attest`]({{< relref "attest.md" >}}) Node side a channel to the host's
+hardware (or firmware / vTPM) TPM, where the [`tis`]({{< relref "tis.md" >}})/[`crb`]({{< relref "crb.md" >}})
 MMIO interfaces are not available. **v0.1.0.**
 
 ```sh
 go get github.com/go-tpm2/devtpm
 ```
 
-## Device model
+## Device model {#device-model}
 
 The Linux `tpm` subsystem (`drivers/char/tpm`) exposes a TPM through two
 character devices, both with the same framing:
@@ -30,11 +35,11 @@ response — no length prefix, no chunking.
 Because that contract is just "raw TPM2 bytes, one command per write, one
 response per read", `New` also accepts any `io.ReadWriteCloser` that honors it —
 most usefully a unix socket to **swtpm's `--server` data channel**, which speaks
-the identical raw TPM2 protocol. The [`validate`](validate.md) harness uses
+the identical raw TPM2 protocol. The [`validate`]({{< relref "validate.md" >}}) harness uses
 exactly that to drive this transport against a real swtpm on a host with no
 `/dev/tpmrm0`.
 
-## Usage
+## Usage {#usage}
 
 ```go
 import (
@@ -57,7 +62,7 @@ node, err := attest.NewNode(tpm, pcrSel)
 // node.Quote(nonce) … etc.
 ```
 
-## Conventions
+## Conventions {#conventions}
 
 Pure Go, `CGO_ENABLED=0`, big-endian TPM wire (via `common`), `GOWORK=off`,
 BSD-3-Clause on every file, 100% statement coverage.
