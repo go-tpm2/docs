@@ -17,7 +17,7 @@ imports it.
 | [`crb`]({{< relref "crb.md" >}}) | `github.com/go-tpm2/crb` | transport | TPM CRB (Command Response Buffer) MMIO transport over `common.Regs`: the PTP doorbell + `goIdle`/`cmdReady` state machine. |
 | [`efitcg2`]({{< relref "efitcg2.md" >}}) | `github.com/go-tpm2/efitcg2` | transport | `EFI_TCG2_PROTOCOL` transport via an injected `Caller`: `SubmitCommand`, `HashLogExtendEvent` (measured boot), and `GetEventLog`. |
 | [`devtpm`]({{< relref "devtpm.md" >}}) | `github.com/go-tpm2/devtpm` | transport | Transport over the Linux kernel TPM char device `/dev/tpmrm0` (resource-manager) — one write = one command, one read = the response. |
-| [`tpm2`]({{< relref "tpm2.md" >}}) | `github.com/go-tpm2/tpm2` | command API | Typed TPM 2.0 commands over any `Transport`: Startup, GetRandom, PCR, GetCapability, NV, AK/EK, Quote→Verify, seal/unseal, MakeCredential/ActivateCredential, Import/WrapToPCR. |
+| [`tpm2`]({{< relref "tpm2.md" >}}) | `github.com/go-tpm2/tpm2` | command API | Typed TPM 2.0 commands over any `Transport`: Startup, GetRandom, PCR, GetCapability, NV, AK/EK, Quote→Verify, seal/unseal, MakeCredential/ActivateCredential, Import/WrapToPCR, and NV counters since v0.9.0. |
 | [`attest`]({{< relref "attest.md" >}}) | `github.com/go-tpm2/attest` | protocol | Remote-attestation protocol over `tpm2`: a Verifier + a Node implementing node-admission-on-Quote, with golden-PCR or event-log replay policies. |
 | [`validate`]({{< relref "validate.md" >}}) | `github.com/go-tpm2/validate` | harness | TamaGo + QEMU + live `swtpm` harnesses that prove the transports, the command API, and the attest protocol against a real TPM. |
 

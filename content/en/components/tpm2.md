@@ -9,7 +9,7 @@ weight: 80
 API**. It sits one layer above [`common`]({{< relref "common.md" >}}): `common` owns the
 big-endian wire codec and the `Transport` contract, and this package turns that
 codec into typed TPM 2.0 commands — from `Startup` / `GetRandom` / PCR ops up
-through full measured-boot attestation. **v0.6.0.**
+through full measured-boot attestation. **v0.9.0.**
 
 ```sh
 go get github.com/go-tpm2/tpm2
@@ -74,6 +74,19 @@ secret sealing for attested nodes.
 
 - **NV storage** — `NVDefineSpace` / `NVWrite` / `NVRead` / `NVReadPublic` /
   `NVUndefineSpace`.
+- **NV counters (v0.9.0)** — `NVDefineCounter`, `NVIncrement` / `NVIncrementAuth`,
+  `NVReadCounter`, `NVDefineSpaceAuth`, `NVUndefineSpaceAuth`, `NVReadAuth`: a
+  `TPM_NT_COUNTER` index (TCG Part 3 rev 1.83, clauses 31.3 and 31.8) read and
+  incremented under its own authValue. `CounterAttributes` sets
+  `COUNTER|AUTHWRITE|AUTHREAD` and deliberately not `ORDERLY` (the counter would
+  jump by `MAX_ORDERLY_COUNT` after a non-orderly shutdown) and not
+  `POLICY_DELETE` (it needs Platform Authorization to define, so the owner can
+  delete the index: a denial of service, never a way to lower the count, because
+  a redefined counter starts above every earlier count). Tested against a
+  software TPM (`swtpm`) in CI; set `TPM2_REQUIRE_SWTPM=1` to make a missing
+  `swtpm` a failure instead of a skip. It is the rollback counter of
+  [theca](https://go-theca.github.io/docs/) v0.9.0, measured there against a
+  software TPM, not a hardware one.
 - **GetCapability** — typed decoders: `GetPCRBanks`, `GetTPMProperties`,
   `GetManufacturer`, `GetAlgorithms`, `GetHandles`.
 - **Foundation** — Startup, GetRandom, SelfTest, PCR_Read / PCR_Extend.
