@@ -9,7 +9,7 @@ weight: 80
 API**. It sits one layer above [`common`]({{< relref "common.md" >}}): `common` owns the
 big-endian wire codec and the `Transport` contract, and this package turns that
 codec into typed TPM 2.0 commands — from `Startup` / `GetRandom` / PCR ops up
-through full measured-boot attestation. **v0.9.0.**
+through full measured-boot attestation. **v0.10.0.**
 
 ```sh
 go get github.com/go-tpm2/tpm2
@@ -74,7 +74,12 @@ secret sealing for attested nodes.
 
 - **NV storage** — `NVDefineSpace` / `NVWrite` / `NVRead` / `NVReadPublic` /
   `NVUndefineSpace`.
-- **NV counters (v0.9.0)** — `NVDefineCounter`, `NVIncrement` / `NVIncrementAuth`,
+- **NV counters (v0.9.0; `NO_DA` and `IsCounterAttributes` in v0.10.0)** — since
+  v0.10.0 new counters carry `TPMA_NV_NO_DA`, so a wrong authValue does not count
+  towards the TPM's dictionary-attack lockout, and `IsCounterAttributes` tells a
+  counter's attributes (with or without `NO_DA`) from others; a fuzz corpus
+  was added. Release notes:
+  [v0.10.0](https://github.com/go-tpm2/tpm2/releases/tag/v0.10.0). The v0.9.0 API: `NVDefineCounter`, `NVIncrement` / `NVIncrementAuth`,
   `NVReadCounter`, `NVDefineSpaceAuth`, `NVUndefineSpaceAuth`, `NVReadAuth`: a
   `TPM_NT_COUNTER` index (TCG Part 3 rev 1.83, clauses 31.3 and 31.8) read and
   incremented under its own authValue. `CounterAttributes` sets
