@@ -11,7 +11,8 @@ kernel TPM character device** (`/dev/tpmrm0`). It implements
 **node-side host-TPM transport** for weft remote attestation: on a real Linux
 node it gives the [`attest`]({{< relref "attest.md" >}}) Node side a channel to the host's
 hardware (or firmware / vTPM) TPM, where the [`tis`]({{< relref "tis.md" >}})/[`crb`]({{< relref "crb.md" >}})
-MMIO interfaces are not available. **v0.1.0.**
+MMIO interfaces are not available. **v0.4.0** adds a Windows TBS transport
+([below](#windows-tbs)).
 
 ```sh
 go get github.com/go-tpm2/devtpm
@@ -61,6 +62,17 @@ tpm := tpm2.New(dev)
 node, err := attest.NewNode(tpm, pcrSel)
 // node.Quote(nonce) … etc.
 ```
+
+## Windows: TPM Base Services {#windows-tbs}
+
+Since **v0.4.0**, `devtpm.OpenTBS()` gives a `common.Transport` on Windows
+through TBS (`tbs.dll`, pure Go, no cgo): `Tbsi_Context_Create` for a TPM 2.0,
+`Tbsip_Submit_Command`, `Tbsip_Context_Close`. TBS result codes are returned as
+`TBSError` (`TBSErrTPMNotFound`, ...). Off Windows `OpenTBS` exists too and
+returns `ErrTBSUnsupported`, so a caller can name the TBS device on every
+platform. **Measured** only as far as `TBS_E_TPM_NOT_FOUND` on a Windows 11
+ARM64 VM without a TPM; a command round trip through a real TPM has **not**
+been run.
 
 ## Conventions {#conventions}
 
