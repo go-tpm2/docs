@@ -78,6 +78,7 @@ four backplanes.
 | [`efitcg2`]({{< relref "components/efitcg2.md" >}}) | `github.com/go-tpm2/efitcg2` | **`EFI_TCG2_PROTOCOL`** transport — a firmware TPM under UEFI Boot Services via an injected `Caller`; `GetEventLog` for measured boot. |
 | [`devtpm`]({{< relref "components/devtpm.md" >}}) | `github.com/go-tpm2/devtpm` | Transport over the Linux kernel TPM char device **`/dev/tpmrm0`** — the node-side host-TPM path. Since v0.4.0 also Windows TBS (`OpenTBS`; not measured on a real TPM). |
 | [`tpm2`]({{< relref "components/tpm2.md" >}}) | `github.com/go-tpm2/tpm2` | The TPM 2.0 **command API** over any `Transport`: PCR, NV, AK/EK, Quote→Verify, seal/unseal, MakeCredential/ActivateCredential, Import/WrapToPCR. |
+| [`nvcounter`]({{< relref "components/nvcounter.md" >}}) | `github.com/go-tpm2/nvcounter` | A TPM 2.0 **NV monotonic counter** — create, increment, read, and name the TPM; a rollback guard over `tpm2` and `devtpm`. |
 | [`attest`]({{< relref "components/attest.md" >}}) | `github.com/go-tpm2/attest` | Control-plane **remote-attestation protocol** — a Verifier + a Node implementing node-admission-on-Quote, with golden-PCR or event-log replay policies. |
 | [`validate`]({{< relref "components/validate.md" >}}) | `github.com/go-tpm2/validate` | Real-hardware **validation harness** — TamaGo + QEMU + a live `swtpm` exercise the transports, the command API, and the attest protocol end to end. |
 
